@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Farm Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/frontend/style.css" />
+  </head>
+  <body>
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <main class="container">
+      <header class="topbar">
+        <div>
+          <h1>Smart Farm Dashboard</h1>
+          <p>Local LAN monitor for Yolo:Bit and peripherals</p>
+        </div>
+        <div id="clock" class="clock">--:--:--</div>
+      </header>
+
+      <section class="grid">
+        <article class="card">
+          <h2>Temperature</h2>
+          <p><span id="temperature">--</span> <small>&deg;C</small></p>
+        </article>
+        <article class="card">
+          <h2>Air Humidity</h2>
+          <p><span id="humidity">--</span> <small>%</small></p>
+        </article>
+        <article class="card">
+          <h2>Soil Moisture</h2>
+          <p><span id="soil_moisture">--</span> <small>%</small></p>
+        </article>
+        <article class="card">
+          <h2>Light</h2>
+          <p><span id="light">--</span> <small>lux</small></p>
+        </article>
+      </section>
+
+      <section class="controls">
+        <div class="status-row">
+          <div>
+            <h3>Pump Status</h3>
+            <p id="pump-status" class="badge">Unknown</p>
+          </div>
+          <div>
+            <h3>Auto Mode</h3>
+            <p id="auto-mode-status" class="badge">Unknown</p>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button id="pump-on-btn" class="btn btn-on">Turn Pump ON</button>
+          <button id="pump-off-btn" class="btn btn-off">Turn Pump OFF</button>
+          <button id="toggle-auto-btn" class="btn btn-auto">Toggle Auto Mode</button>
+        </div>
+
+        <p id="message" class="message"></p>
+      </section>
+    </main>
+
+    <script src="/frontend/app.js"></script>
+  </body>
+</html>

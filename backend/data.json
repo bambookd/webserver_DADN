@@ -1,0 +1,13 @@
+{
+  "latest_sensor_data": {
+    "temperature": null,
+    "humidity": null,
+    "soil_moisture": null,
+    "light": null
+  },
+  "device_states": {
+    "pump": "off"
+  },
+  "auto_mode": true,
+  "soil_moisture_threshold": 35.0
+}
