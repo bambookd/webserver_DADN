@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YoloFarm Browser Test Runner</title>
+    <style>
+      :root {
+        --bg: #0b2b63;
+        --panel: #f4f8ff;
+        --ink: #0f2954;
+        --pass: #13853e;
+        --fail: #bb1b3f;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Segoe UI, Arial, sans-serif;
+        color: #fff;
+        background: radial-gradient(circle at top right, #1a57b8, transparent 40%), linear-gradient(135deg, #071d48, #0d3d87);
+      }
+      main {
+        width: min(980px, 94vw);
+        margin: 20px auto;
+        background: var(--panel);
+        border-radius: 14px;
+        padding: 16px;
+        color: var(--ink);
+      }
+      h1 { margin: 0 0 8px; }
+      .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+      button {
+        border: none;
+        border-radius: 8px;
+        padding: 9px 12px;
+        font-weight: 700;
+        cursor: pointer;
+        color: #fff;
+        background: #1f63c7;
+      }
+      button.secondary { background: #5a6d8f; }
+      .summary {
+        margin: 12px 0;
+        padding: 10px;
+        border-radius: 8px;
+        background: #eaf1ff;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+      }
+      th, td {
+        border: 1px solid #d5e0f5;
+        padding: 8px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th { background: #ecf3ff; }
+      .status-pass { color: var(--pass); font-weight: 700; }
+      .status-fail { color: var(--fail); font-weight: 700; }
+      .status-wait { color: #577; font-weight: 700; }
+      code {
+        background: #f2f6ff;
+        padding: 1px 4px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Browser Auto Test Runner</h1>
+      <p>Trang nay giup ban test luong backend/dashboard truoc khi cam mach. Khong can terminal.</p>
+
+      <div class="toolbar">
+        <button id="run-all">Run all tests</button>
+        <button id="reset-first" class="secondary">Reset state first</button>
+        <button id="open-dashboard" class="secondary">Open dashboard</button>
+      </div>
+
+      <div id="summary" class="summary">Chua chay test.</div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px;">#</th>
+            <th>Test</th>
+            <th style="width: 120px;">Status</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody id="result-body"></tbody>
+      </table>
+
+      <p style="margin-top: 12px;">
+        URL test page: <code>/frontend/test-runner.html</code>
+      </p>
+    </main>
+
+    <script src="/frontend/test-runner.js"></script>
+  </body>
+</html>

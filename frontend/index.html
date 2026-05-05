@@ -1,70 +1,129 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Smart Farm Dashboard</title>
+    <title>Yolo:Farm Local Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/frontend/style.css" />
   </head>
   <body>
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
-
-    <main class="container">
-      <header class="topbar">
+    <main class="dashboard">
+      <header class="header panel">
         <div>
-          <h1>Smart Farm Dashboard</h1>
-          <p>Local LAN monitor for Yolo:Bit and peripherals</p>
+          <p class="eyebrow">Yolo:Bit Smart Farm</p>
+          <h1>Yolo:Farm Local Dashboard</h1>
         </div>
-        <div id="clock" class="clock">--:--:--</div>
+        <div class="header-status">
+          <p>Server: <strong id="server-status">Dang kiem tra...</strong></p>
+          <p>Ket noi: <strong id="connection-mode">simulation</strong></p>
+          <p>Cap nhat: <strong id="last-updated">--</strong></p>
+        </div>
       </header>
 
-      <section class="grid">
-        <article class="card">
-          <h2>Temperature</h2>
-          <p><span id="temperature">--</span> <small>&deg;C</small></p>
+      <section class="metrics">
+        <article class="metric red">
+          <h2>Nhiet do</h2>
+          <p><span id="temperature">--</span><small>deg C</small></p>
         </article>
-        <article class="card">
-          <h2>Air Humidity</h2>
-          <p><span id="humidity">--</span> <small>%</small></p>
+        <article class="metric blue">
+          <h2>Do am khong khi</h2>
+          <p><span id="humidity">--</span><small>%</small></p>
         </article>
-        <article class="card">
-          <h2>Soil Moisture</h2>
-          <p><span id="soil_moisture">--</span> <small>%</small></p>
+        <article class="metric orange">
+          <h2>Tinh trang cay</h2>
+          <p class="status-text" id="crop-status">--</p>
         </article>
-        <article class="card">
-          <h2>Light</h2>
-          <p><span id="light">--</span> <small>lux</small></p>
+        <article class="metric green">
+          <h2>GDD</h2>
+          <p><span id="gdd">0</span></p>
+        </article>
+        <article class="metric navy">
+          <h2>Do am dat</h2>
+          <p><span id="soil-moisture">--</span><small>%</small></p>
+        </article>
+        <article class="metric purple">
+          <h2>Anh sang</h2>
+          <p><span id="light">--</span><small>lux</small></p>
         </article>
       </section>
 
-      <section class="controls">
-        <div class="status-row">
-          <div>
-            <h3>Pump Status</h3>
-            <p id="pump-status" class="badge">Unknown</p>
+      <section class="layout-grid">
+        <section class="panel control-panel">
+          <h3>Che do hoat dong</h3>
+          <div class="mode-buttons">
+            <button id="mode-0" class="btn mode-btn">Mode 0: Thu cong</button>
+            <button id="mode-1" class="btn mode-btn">Mode 1: Tu dong theo cam bien</button>
+            <button id="mode-2" class="btn mode-btn">Mode 2: Tuoi theo lich</button>
           </div>
-          <div>
-            <h3>Auto Mode</h3>
-            <p id="auto-mode-status" class="badge">Unknown</p>
+          <p>Che do hien tai: <strong id="mode-label">--</strong></p>
+          <p>RGB status: <strong id="rgb-status">--</strong></p>
+
+          <h3>Dieu khien may bom</h3>
+          <div class="pump-grid">
+            <div class="pump-box">
+              <p>May bom P10: <strong id="pump-p10">off</strong></p>
+              <div class="button-row">
+                <button id="p10-on" class="btn btn-on">P10 ON</button>
+                <button id="p10-off" class="btn btn-off">P10 OFF</button>
+              </div>
+            </div>
+            <div class="pump-box">
+              <p>May bom P13: <strong id="pump-p13">off</strong></p>
+              <div class="button-row">
+                <button id="p13-on" class="btn btn-on">P13 ON</button>
+                <button id="p13-off" class="btn btn-off">P13 OFF</button>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="button-row">
-          <button id="pump-on-btn" class="btn btn-on">Turn Pump ON</button>
-          <button id="pump-off-btn" class="btn btn-off">Turn Pump OFF</button>
-          <button id="toggle-auto-btn" class="btn btn-auto">Toggle Auto Mode</button>
-        </div>
+          <h3>Nguong cam bien</h3>
+          <div class="threshold-grid">
+            <label>Soil low <input id="soil-low" type="number" min="0" max="100" /></label>
+            <label>Soil high <input id="soil-high" type="number" min="0" max="100" /></label>
+            <label>Light low <input id="light-low" type="number" min="0" /></label>
+            <label>GDD light threshold <input id="gdd-threshold" type="number" min="0" /></label>
+          </div>
+          <button id="save-thresholds" class="btn btn-accent">Luu nguong</button>
 
-        <p id="message" class="message"></p>
+          <h3>Lich tuoi</h3>
+          <p id="schedule-text">08:00-08:15, 12:00-12:10, 17:00-17:15</p>
+          <button id="apply-schedule" class="btn btn-accent">Apply schedule now</button>
+
+          <h3>Tac vu nhanh</h3>
+          <div class="button-row">
+            <button id="refresh-btn" class="btn">Refresh</button>
+            <button id="simulate-btn" class="btn btn-accent">Simulate Sensor Data</button>
+            <button id="reset-btn" class="btn btn-danger">Reset Data</button>
+          </div>
+        </section>
+
+        <section class="panel history-panel">
+          <h3>Lich su anh sang</h3>
+          <div id="history-light" class="history-bars"></div>
+
+          <h3>Lich su do am dat</h3>
+          <div id="history-soil" class="history-bars"></div>
+
+          <h3>Lich su nhiet do</h3>
+          <div id="history-temp" class="history-bars"></div>
+
+          <h3>Lich su do am khong khi</h3>
+          <div id="history-humidity" class="history-bars"></div>
+        </section>
+      </section>
+
+      <section class="panel footer-panel">
+        <p id="message" class="message">San sang.</p>
+        <p class="small">Khong dung slider che do bom. Dashboard su dung 3 nut mode de ro rang khi demo.</p>
       </section>
     </main>
+
+    <noscript>
+      <div class="noscript-box">Can bat JavaScript de dashboard hoat dong.</div>
+    </noscript>
 
     <script src="/frontend/app.js"></script>
   </body>

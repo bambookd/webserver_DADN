@@ -1,13 +1,67 @@
 {
-  "latest_sensor_data": {
-    "temperature": null,
-    "humidity": null,
-    "soil_moisture": null,
-    "light": null
+  "sensors": {
+    "temperature": 30.0,
+    "humidity": 55.0,
+    "soil_moisture": 20.0,
+    "light": 500.0,
+    "gdd": 1
   },
-  "device_states": {
-    "pump": "off"
+  "devices": {
+    "pump_p10": "on",
+    "pump_p13": "off",
+    "rgb_status": "red"
   },
-  "auto_mode": true,
-  "soil_moisture_threshold": 35.0
+  "mode": {
+    "value": 0,
+    "label": "Manual mode"
+  },
+  "thresholds": {
+    "soil_low": 45,
+    "soil_high": 80,
+    "light_low": 600,
+    "gdd_light_threshold": 2000
+  },
+  "schedule": {
+    "enabled": true,
+    "slots": [
+      {
+        "start": 480,
+        "end": 495
+      },
+      {
+        "start": 720,
+        "end": 730
+      },
+      {
+        "start": 1020,
+        "end": 1035
+      }
+    ]
+  },
+  "status": {
+    "crop_status": "Dat kho",
+    "last_updated": "2026-05-05T12:55:01",
+    "connection": "simulation"
+  },
+  "history": {
+    "temperature": [
+      29.5,
+      30.0
+    ],
+    "humidity": [
+      80.2,
+      55.0
+    ],
+    "soil_moisture": [
+      45.9,
+      20.0
+    ],
+    "light": [
+      2758.1,
+      500.0
+    ],
+    "gdd": [
+      1
+    ]
+  }
 }
