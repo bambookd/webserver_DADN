@@ -35,9 +35,9 @@ except Exception:
 # ---------------------------
 # CONFIG: fill these at school
 # ---------------------------
-WIFI_SSID = "HCMUT-MEETING"
-WIFI_PASSWORD = "hcmut@meeting"
-SERVER_BASE_URL = "http://10.127.15.143:8000"
+WIFI_SSID = "YOUR_WIFI_SSID"
+WIFI_PASSWORD = "YOUR_WIFI_PASSWORD"
+SERVER_BASE_URL = "http://<ip computer>:8000"
 POST_PATH = "/api/sensor-data"
 SEND_INTERVAL_SECONDS = 10
 
