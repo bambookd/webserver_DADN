@@ -201,6 +201,11 @@ h1 {
 .pump-state.on { color: var(--on); }
 .pump-state.off { color: var(--off); }
 
+.rgb-indicator { font-weight: bold; padding: 2px 8px; border-radius: 4px; }
+.rgb-red    { color: #fff; background: #e74c3c; }
+.rgb-green  { color: #fff; background: #27ae60; }
+.rgb-yellow { color: #333; background: #f1c40f; }
+
 .button-row {
   margin-top: 8px;
   display: flex;

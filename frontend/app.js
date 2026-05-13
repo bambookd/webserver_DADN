@@ -136,7 +136,9 @@ function renderState(state) {
   ui.lastUpdated.textContent = formatTime(state.status.last_updated);
 
   ui.modeLabel.textContent = state.mode.label;
-  ui.rgbStatus.textContent = state.devices.rgb_status;
+  const rgb = state.devices.rgb_status || "green";
+  ui.rgbStatus.textContent = rgb;
+  ui.rgbStatus.className = `rgb-indicator rgb-${rgb}`;
   applyModeButtonState(state.mode.value);
 
   ui.pumpP10.textContent = state.devices.pump_p10;

@@ -126,8 +126,8 @@ def default_state() -> Dict[str, Any]:
             "label": "Auto sensor mode",
         },
         "thresholds": {
-            "soil_low": 45,
-            "soil_high": 80,
+            "soil_low": 10,
+            "soil_high": 20,
             "light_low": 600,
             "gdd_light_threshold": 2000,
         },
@@ -232,20 +232,20 @@ def apply_mode_rules() -> None:
         return
 
     soil = float(state["sensors"]["soil_moisture"])
-    light = float(state["sensors"]["light"])
     thresholds = state["thresholds"]
 
-    if soil < thresholds["soil_low"] and light < thresholds["light_low"]:
+    # C24: only soil moisture decides pump (ideal range 50-80% for chrysanthemum)
+    if soil < thresholds["soil_low"]:
         if state["devices"]["pump_p10"] != "on":
             state["devices"]["pump_p10"] = "on"
             publish_control_placeholder("V10", "1")
-            logging.info("[AUTO] pump_p10 -> on (soil=%.2f light=%.2f)", soil, light)
+            logging.info("[AUTO] pump_p10 -> on (soil=%.2f < soil_low=%.2f)", soil, thresholds["soil_low"])
 
     if soil > thresholds["soil_high"]:
         if state["devices"]["pump_p10"] != "off":
             state["devices"]["pump_p10"] = "off"
             publish_control_placeholder("V10", "0")
-            logging.info("[AUTO] pump_p10 -> off (soil=%.2f)", soil)
+            logging.info("[AUTO] pump_p10 -> off (soil=%.2f > soil_high=%.2f)", soil, thresholds["soil_high"])
 
 
 def current_minutes_of_day() -> int:
@@ -463,6 +463,17 @@ def api_get_state() -> Dict[str, Any]:
         return get_state_copy()
 
 
+@app.get("/api/pump-state")
+def api_pump_state() -> Dict[str, Any]:
+    """Lightweight endpoint for firmware to sync pump pins and RGB status."""
+    with state_lock:
+        return {
+            "pump_p10": state["devices"]["pump_p10"],
+            "pump_p13": state["devices"]["pump_p13"],
+            "rgb_status": state["devices"]["rgb_status"],
+        }
+
+
 @app.post("/api/sensor-data")
 def api_sensor_data(payload: SensorDataPayload) -> Dict[str, Any]:
     with state_lock:
@@ -490,12 +501,20 @@ def api_control(payload: ControlPayload) -> Dict[str, Any]:
 @app.post("/api/mode")
 def api_mode(payload: ModePayload) -> Dict[str, Any]:
     with state_lock:
+        # Reset both pumps when switching mode to avoid leftover states
+        state["devices"]["pump_p10"] = "off"
+        state["devices"]["pump_p13"] = "off"
+        publish_control_placeholder("V10", "0")
+        publish_control_placeholder("V11", "0")
+
         state["mode"]["value"] = payload.mode
         update_mode_metadata()
         state["status"]["last_updated"] = now_iso()
 
         publish_control_placeholder("V7", str(payload.mode))
-        if payload.mode == 2:
+        if payload.mode == 1:
+            apply_mode_rules()
+        elif payload.mode == 2:
             apply_schedule_rules()
 
         save_state()
